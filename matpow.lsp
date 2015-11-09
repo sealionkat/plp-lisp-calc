@@ -61,6 +61,22 @@
 	; TODO: loop
 )
 
+; Ewaluacja wektora
+(defun fr_eval_vec (v)
+	(if (null (first v))
+		'()
+		(cons (eval (first v)) (fr_eval_vec (rest v)))
+	)
+)
+
+; Ewaluacja macierzy
+(defun fr_eval_mat (M)
+	(if (null (first M))
+		'()
+		(cons (fr_eval_vec (first M)) (fr_eval_mat (rest M)))
+	)
+)
+
 (defun f_matpow (M k)
 	(fr_matpow (f_trans M) k)
 )
@@ -84,16 +100,13 @@
 	((+ b d))
 ))
 
-(write (f_matpow zt 1))
-
-;(setq x (fmatpow z 2))
-;(setq x (get_i z))
-
+(setq x (f_matpow zt 2))
 
 (setf a 1)
 (setf b 2)
 (setf c 3)
 (setf d 4)
 
-;(write x)
-;(write (eval x))
+(write x)
+(format t "~& ~&")
+(write (fr_eval_mat x))
