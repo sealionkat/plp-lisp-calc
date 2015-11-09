@@ -30,24 +30,34 @@
 )
 
 ; Mnoży wektor przez macierz
-(defun vecmatmul (v M)
-)
-
-(defun matmul (A B)
-	(setq d (length A))
-	
-)
-
-(defun fr_matpow (M k)
-	(if (= k 0)
-		(get_i M)
-		(matmul (fr_matpow M (1- k)) M)
+(defun fr_vecmatmul (v M)
+	(if (null (first M))
+		'()
+		(cons (fr_mulvec v (first M)) (fr_vecmatmul v (rest M)))
 	)
 )
 
+; Mnożenie macierzy
+(defun fr_matmul (A B)
+	(if (null (first A))
+		'()
+		(cons (fr_vecmatmul (first A) B) (fr_matmul (rest A) B))
+	)
+)
+
+; Potęgowanie macierzy
+(defun fr_matpow (M k)
+	(if (= k 0)
+		(f_get_i M)
+		(fr_matmul (fr_matpow M (1- k)) M)
+	)
+)
+
+; Transponowanie
 (defun f_trans (M)
 	(setq d (length M))
 	
+	M
 	; TODO: loop
 )
 
@@ -74,7 +84,7 @@
 	((+ b d))
 ))
 
-(write (fr_mulvec (first z) (second z)))
+(write (f_matpow zt 1))
 
 ;(setq x (fmatpow z 2))
 ;(setq x (get_i z))
