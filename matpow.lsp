@@ -57,8 +57,11 @@
 (defun f_trans (M)
 	(setq d (length M))
 	
-	M
-	; TODO: loop
+	(loop for i from 1 to d collect
+		(loop for j from 1 to d collect 
+			(nth (1- i) (nth (1- j) M))
+		)
+	)
 )
 
 ; Ewaluacja wektora
@@ -88,19 +91,7 @@
 	(a a b a)
 ))
 
-(setq zt '(
-	(a a d a)
-	(b a a a)
-	(a c a b)
-	(a a a a)
-))
-
-
-(setq zz '(
-	((+ b d))
-))
-
-(setq x (f_matpow zt 2))
+(setq x (f_matpow z 2))
 
 (setf a 1)
 (setf b 2)
