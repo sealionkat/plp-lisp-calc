@@ -28,11 +28,34 @@
 	)
 )
 
+; Mnoży wektor przez macierz
+(defmacro mr_vecmatmul (v M)
+	`(if (null `,(first ,M))
+		'()
+		(cons (mr_mulvec ,v (first ,M)) (mr_vecmatmul ,v (rest ,M)))
+	)
+)
+
+; Ewaluacja wektora
+(defmacro mr_eval_vec (v)
+	`(if (null `,(first ,v))
+		'()
+		(cons (eval (first ,v)) (mr_eval_vec (rest ,v)))
+	)
+)
+
 (setq z '(
 	(a b a a)
 	(a a c a)
 	(d a a a)
 	(a a b a)
+))
+
+(setq zt '(
+	(a a d a)
+	(b a a a)
+	(a c a b)
+	(a a a a)
 ))
 
 ;(setq x (f_matpow z 2))
@@ -46,5 +69,9 @@
 ;(trace mr_get_i_mat)
 ;(trace m_get_i)
 ;(trace mr_mulvec)
+;(trace mr_vecmatmul)
+;(trace mr_eval_vec)
 
-(write (mr_mulvec (first z) (second z)))
+(setq x (mr_vecmatmul (first z) zt))
+
+(write (mr_eval_vec x))
