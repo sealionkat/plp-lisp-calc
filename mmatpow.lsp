@@ -44,6 +44,16 @@
 	)
 )
 
+; Potęgowanie macierzy
+(defmacro mr_matpow (M k)
+	`(if `,(= ,k 0)
+		(m_get_i ,M)
+		(let ((tmp (mr_matpow ,M ,(1- k)))) 
+			(mr_matmul tmp ,M)
+		)
+	)
+)
+
 ; Ewaluacja wektora
 (defmacro mr_eval_vec (v)
 	`(if (null `,(first ,v))
@@ -60,6 +70,19 @@
 	)
 )
 
+; Transponowanie
+(defmacro m_trans (M)
+	`(loop for i from 1 to (length ,M) collect
+		(loop for j from 1 to (length ,M) collect 
+			(nth (1- i) (nth (1- j) ,M))
+		)
+	)
+)
+
+(defmacro m_matpow (M k)
+	`(mr_matpow (m_trans ,M) ,k)
+)
+
 (setq z '(
 	(a b a a)
 	(a a c a)
@@ -74,13 +97,6 @@
 	(a a a a)
 ))
 
-;(setq x (f_matpow z 2))
-
-(setf a 1)
-(setf b 2)
-(setf c 3)
-(setf d 4)
-
 ;(trace mr_get_i_vec)
 ;(trace mr_get_i_mat)
 ;(trace m_get_i)
@@ -89,8 +105,14 @@
 ;(trace mr_eval_vec)
 ;(trace mr_matmul)
 ;(trace mr_eval_mat)
+;(trace m_trans)
+;(trace mr_matpow)
 
+(setq x (m_matpow z 5))
 
-(setq x (mr_matmul z zt))
+(setf a 1)
+(setf b 2)
+(setf c 3)
+(setf d 4)
 
 (write (mr_eval_mat x))
