@@ -90,13 +90,6 @@
 	(a a b a)
 ))
 
-(setq zt '(
-	(a a d a)
-	(b a a a)
-	(a c a b)
-	(a a a a)
-))
-
 ;(trace mr_get_i_vec)
 ;(trace mr_get_i_mat)
 ;(trace m_get_i)
