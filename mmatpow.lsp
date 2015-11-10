@@ -36,11 +36,27 @@
 	)
 )
 
+; Mnożenie macierzy
+(defmacro mr_matmul (A B)
+	`(if (null `,(first ,A))
+		'()
+		(cons (mr_vecmatmul (first ,A) ,B) (mr_matmul (rest ,A) ,B))
+	)
+)
+
 ; Ewaluacja wektora
 (defmacro mr_eval_vec (v)
 	`(if (null `,(first ,v))
 		'()
 		(cons (eval (first ,v)) (mr_eval_vec (rest ,v)))
+	)
+)
+
+; Ewaluacja macierzy
+(defmacro mr_eval_mat (M)
+	`(if (null `,(first ,M))
+		'()
+		(cons (mr_eval_vec (first ,M)) (mr_eval_mat (rest ,M)))
 	)
 )
 
@@ -71,7 +87,10 @@
 ;(trace mr_mulvec)
 ;(trace mr_vecmatmul)
 ;(trace mr_eval_vec)
+;(trace mr_matmul)
+;(trace mr_eval_mat)
 
-(setq x (mr_vecmatmul (first z) zt))
 
-(write (mr_eval_vec x))
+(setq x (mr_matmul z zt))
+
+(write (mr_eval_mat x))
